@@ -53,6 +53,64 @@ if df2 is not None:
     print(df2.head())  # Display the first few rows of the loaded CSV
 
 
+# In[33]:
+
+
+def drop_na_and_log(data: pd.DataFrame, column_name: str) -> pd.DataFrame:
+    """
+    Drops rows with NaN values in a specific column, logs the number of rows dropped and the total number of records, 
+    and returns a log DataFrame for auditing.
+    
+    Args:
+    - data: The DataFrame to clean.
+    - column_name: The column name to check for NaN values.
+    
+    Returns:
+    - A tuple containing the cleaned DataFrame and a DataFrame containing the audit log of dropped records.
+    """
+    # Record the number of rows before dropping NaN
+    initial_row_count = len(data)
+    
+    # Drop rows where the specified column has NaN values
+    data_cleaned = data.dropna(subset=[column_name])
+    
+    # Record the number of rows after dropping NaN
+    final_row_count = len(data_cleaned)
+    
+    # Log the number of records dropped and total records before and after
+    dropped_records = initial_row_count - final_row_count
+    log_data = {
+        'Column Name': [column_name],
+        'Records Before Drop': [initial_row_count],
+        'Records Dropped': [dropped_records],
+        'Records After Drop': [final_row_count]
+    }
+    
+    # Create the log DataFrame
+    log_df = pd.DataFrame(log_data)
+    
+    return data_cleaned, log_df
+
+# Example usage:
+# Assuming 'Book checkout' is the column where you want to drop NaN values
+# cleaned_data, audit_log = drop_na_and_log(cleaned_data, 'Book checkout')
+
+# Print cleaned data and audit log
+# print(cleaned_data)
+# print(audit_log)
+
+
+# In[34]:
+
+
+# Applying the function
+cleaned_data_customer, audit_log_customer = drop_na_and_log(df2, 'Customer ID')
+
+# Print cleaned data and audit log
+print(cleaned_data_customer)
+print(audit_log_customer)
+
+
 # In[25]:
 
 
@@ -169,12 +227,26 @@ connection_string = f'mssql+pyodbc://@{server}/{database}?trusted_connection=yes
 engine = create_engine(connection_string)
 
 
-# In[32]:
+# In[36]:
 
 
 # Write the DataFrame to SQL Server
 cleaned_data.to_sql('book_library', con=engine, if_exists='replace', index=False)
-df2.to_sql('customer_library', con=engine, if_exists='replace', index=False)
+cleaned_data_customer.to_sql('customer_library', con=engine, if_exists='replace', index=False)
+audit_log_customer.to_sql('audit_log_customer', con=engine, if_exists='replace', index=False)
 
 
 # CONVERTING to .PY file
+
+# In[ ]:
+
+
+# Open your terminal (either in VS Code or elsewhere).
+
+# Run the following command to convert your notebook to a .py file:
+
+# jupyter nbconvert --to script your_notebook.ipynb
+
+
+# This will generate a Python script (your_notebook.py) in the same folder as the .ipynb file, containing only the code cells.
+
