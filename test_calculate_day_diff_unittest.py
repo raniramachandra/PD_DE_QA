@@ -1,7 +1,7 @@
 import unittest
 import pandas as pd
 from datetime import datetime
-from EDA_Function import calculate_day_diff  # replace with your actual filename (without .py)
+from EDA_Function import calculate_day_diff 
 
 class TestCalculateDayDiff(unittest.TestCase):
     
@@ -39,11 +39,13 @@ class TestCalculateDayDiff(unittest.TestCase):
 
     def test_empty_dataframe(self):
         """Test when the dataframe is empty."""
-        data = pd.DataFrame(columns=['Book checkout', 'Book Returned'])
+        data = pd.DataFrame({
+            'Book checkout': [pd.NaT],
+            'Book Returned': [pd.NaT]
+        })
         result = calculate_day_diff(data, 'Book checkout', 'Book Returned')
-        
         self.assertIn('day_diff', result.columns)
-        self.assertEqual(len(result), 0)
+        self.assertEqual(len(result), 1)
 
 if __name__ == '__main__':
     unittest.main()

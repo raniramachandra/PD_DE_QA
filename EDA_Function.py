@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[21]:
+# In[1]:
 
 
 import pandas as pd
@@ -189,51 +189,51 @@ print(cleaned_data)
 
 # LOADING SQL server
 
-# In[29]:
+# In[ ]:
 
 
-get_ipython().system('pip install pandas sqlalchemy pyodbc')
+#!pip install pandas sqlalchemy pyodbc
 
 
-# In[30]:
+# In[ ]:
 
 
 # Checking the ODBC Driver for SQL Server
-import pyodbc
+# import pyodbc
 
-# List all ODBC drivers installed on the system
-drivers = [driver for driver in pyodbc.drivers()]
-print("ODBC Drivers available:")
-for driver in drivers:
-    print(driver)
-
-
-# In[31]:
+# # List all ODBC drivers installed on the system
+# drivers = [driver for driver in pyodbc.drivers()]
+# print("ODBC Drivers available:")
+# for driver in drivers:
+#     print(driver)
 
 
-from sqlalchemy import create_engine
-
-# Define the connection string to your MS SQL Server
-server = 'localhost'  
-database = 'QAETLStagingDB'
-username = 'python_app'
-password = 'password'
-
-# Create the connection string with Windows Authentication
-connection_string = f'mssql+pyodbc://@{server}/{database}?trusted_connection=yes&driver=ODBC+Driver+17+for+SQL+Server'
+# In[ ]:
 
 
-# Create the SQLAlchemy engine
-engine = create_engine(connection_string)
+# from sqlalchemy import create_engine
+
+# # Define the connection string to your MS SQL Server
+# server = 'localhost'  
+# database = 'QAETLStagingDB'
+# username = 'python_app'
+# password = 'password'
+
+# # Create the connection string with Windows Authentication
+# connection_string = f'mssql+pyodbc://@{server}/{database}?trusted_connection=yes&driver=ODBC+Driver+17+for+SQL+Server'
 
 
-# In[36]:
+# # Create the SQLAlchemy engine
+# engine = create_engine(connection_string)
 
 
-# Write the DataFrame to SQL Server
-cleaned_data.to_sql('book_library', con=engine, if_exists='replace', index=False)
-cleaned_data_customer.to_sql('customer_library', con=engine, if_exists='replace', index=False)
-audit_log_customer.to_sql('audit_log_customer', con=engine, if_exists='replace', index=False)
+# In[ ]:
+
+
+# # Write the DataFrame to SQL Server
+# cleaned_data.to_sql('book_library', con=engine, if_exists='replace', index=False)
+# cleaned_data_customer.to_sql('customer_library', con=engine, if_exists='replace', index=False)
+# audit_log_customer.to_sql('audit_log_customer', con=engine, if_exists='replace', index=False)
 
 
 # CONVERTING to .PY file
