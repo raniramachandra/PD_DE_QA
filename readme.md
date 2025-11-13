@@ -128,4 +128,9 @@ Database: QAETLStagingDB
 
 ---
 
+Further ref :
+https://github.com/jamurkin/DE5-M5
+https://github.com/niroshsuthagar-QA/DE5-M5-20251110
+https://realpython.com/python-classes/
+
 
